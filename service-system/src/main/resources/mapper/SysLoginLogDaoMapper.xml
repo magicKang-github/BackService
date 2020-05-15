@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.back.service.system.dao.SysLoginLogDao">
+
+    <sql id="pageWhere">
+        WHERE 1=1
+        <if test="sysLoginLog != null">
+            <if test="sysLoginLog.id != null and sysLoginLog.id !=''" > AND l.id = #{sysLoginLog.id}</if>
+            <if test="sysLoginLog.cname != null and sysLoginLog.cname !=''"> AND l.cname LIKE '%${sysLoginLog.cname}%'</if>
+            <if test="sysLoginLog.cip != null and sysLoginLog.cip !=''" > AND l.cip = #{sysLoginLog.cip}</if>
+             <if test="sysLoginLog.sysUser != null">
+                 <if test="sysLoginLog.sysUser.account != null and sysLoginLog.sysUser.account !=''" > AND u.account LIKE '%${sysLoginLog.sysUser.account}%'</if>
+                 <if test="sysLoginLog.sysUser.name != null and  sysLoginLog.sysUser.name !='' " > AND u.name LIKE '%${sysLoginLog.sysUser.name}%'</if>
+             </if>
+        </if>
+    </sql>
+    <select id="selectPageVo" resultType="com.back.service.system.bean.SysLoginLog">
+    select l.id as id,u.name as 'sysUser.name',u.account as 'sysUser.account',l.cip,l.cname,l.createtime
+    from sys_login l join sys_user u on l.uid = u.id
+        <include refid="pageWhere" /> ORDER BY l.createtime desc
+    </select>
+</mapper>

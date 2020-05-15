@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.back.service.system.dao.ViewUserDao">
+
+    <select id="getDataByWeek" resultType="java.util.HashMap">
+        select case
+                   when WEEKDAY(createtime) = 0 then 'Mon'
+                   when WEEKDAY(createtime) = 1 then 'Tue'
+                   when WEEKDAY(createtime) = 2 then 'Wed'
+                   when WEEKDAY(createtime) = 3 then 'Thu'
+                   when WEEKDAY(createtime) = 4 then 'Fri'
+                   when WEEKDAY(createtime) = 5 then 'Sat'
+                   when WEEKDAY(createtime) = 6 then 'Sun'
+                   end as week, count(id) as total
+        FROM sys_action WHERE (YEARWEEK(date_format(createtime,'%Y-%m-%d')) = YEARWEEK(now())-#{week}) group by
+            case
+                when WEEKDAY(createtime) = 0 then 'Mon'
+                when WEEKDAY(createtime) = 1 then 'Tue'
+                when WEEKDAY(createtime) = 2 then 'Wed'
+                when WEEKDAY(createtime) = 3 then 'Thu'
+                when WEEKDAY(createtime) = 4 then 'Fri'
+                when WEEKDAY(createtime) = 5 then 'Sat'
+                when WEEKDAY(createtime) = 6 then 'Sun'
+            end
+    </select>
+
+    <select id="getDataByWeekAndPageId" resultType="java.util.HashMap">
+        select case
+                   when WEEKDAY(createtime) = 0 then 'Mon'
+                   when WEEKDAY(createtime) = 1 then 'Tue'
+                   when WEEKDAY(createtime) = 2 then 'Wed'
+                   when WEEKDAY(createtime) = 3 then 'Thu'
+                   when WEEKDAY(createtime) = 4 then 'Fri'
+                   when WEEKDAY(createtime) = 5 then 'Sat'
+                   when WEEKDAY(createtime) = 6 then 'Sun'
+                   end as week, count(id) as total
+        FROM sys_action WHERE (YEARWEEK(date_format(createtime,'%Y-%m-%d')) = YEARWEEK(now())-#{week}) and page = #{pageId}
+        group by
+            case
+                when WEEKDAY(createtime) = 0 then 'Mon'
+                when WEEKDAY(createtime) = 1 then 'Tue'
+                when WEEKDAY(createtime) = 2 then 'Wed'
+                when WEEKDAY(createtime) = 3 then 'Thu'
+                when WEEKDAY(createtime) = 4 then 'Fri'
+                when WEEKDAY(createtime) = 5 then 'Sat'
+                when WEEKDAY(createtime) = 6 then 'Sun'
+            end;
+    </select>
+</mapper>

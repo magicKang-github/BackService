@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.back.service.system.dao.SysUserDao">
+
+    <delete id="removeByDelIds" >
+        delete from sys_user_role where uid = #{uid} and rid in
+        <foreach collection="ids" item="id" open="(" close=")" separator="," >
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="insertByIds" >
+        insert into sys_user_role (uid, rid) values
+        <foreach collection="ids" separator="," item="id" >
+            (#{uid},#{id})
+        </foreach>
+    </insert>
+</mapper>
